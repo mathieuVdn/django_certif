@@ -12,6 +12,8 @@ from django.http import JsonResponse
 from datetime import timedelta
 from django.utils import timezone
 from prometheus_client import generate_latest, Counter
+from django.http import HttpResponse
+
 
 
 
