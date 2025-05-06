@@ -36,6 +36,8 @@ services:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
+    tty: true
+    stdin_open: true
 
   prometheus:
     image: prom/prometheus
