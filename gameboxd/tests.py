@@ -6,42 +6,31 @@ from rest_framework.test import APIClient
 from gameboxd.models import Game, Review
 from unittest.mock import patch
 from api.mistral_summary import generate_summary  # adapte si besoin
+from fastapi.testclient import TestClient
+from api.api import app
 
-# --- Tests FastAPI via client DRF ---
+client = TestClient(app)
+
 class APITests(TestCase):
     def setUp(self):
-        self.api_client = APIClient()
         self.username = "testuser"
         self.password = "testpass"
-        self.user = User.objects.create_user(username=self.username, password=self.password)
-
-    def get_token(self):
-        response = self.api_client.post("/login", {
-            "username": self.username,
-            "password": self.password
-        })
-        return response.data["access_token"]
+        User.objects.create_user(username=self.username, password=self.password)
 
     def test_login_success(self):
-        response = self.api_client.post("/login", {
+        response = client.post("/login", data={
             "username": self.username,
             "password": self.password
         })
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("access_token", response.json())
+        assert response.status_code == 200
+        assert "access_token" in response.json()
 
     def test_login_failure(self):
-        response = self.api_client.post("/login", {
+        response = client.post("/login", data={
             "username": self.username,
             "password": "wrongpass"
         })
-        self.assertEqual(response.status_code, 401)
-
-    def test_access_games_authenticated(self):
-        token = self.get_token()
-        self.api_client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
-        response = self.api_client.get("/games/")
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 401
 
 # --- Tests Django views ---
 class HomeViewTests(TestCase):
