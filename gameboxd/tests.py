@@ -7,6 +7,8 @@ from api.mistral_summary import generate_summary
 from rest_framework.test import APIClient
 from django.contrib.auth.models import User
 from fastapi.testclient import TestClient
+from api.api import app
+
 
 class APITests(TestCase):
     def setUp(self):
