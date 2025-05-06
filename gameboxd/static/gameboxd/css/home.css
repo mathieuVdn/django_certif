@@ -1,0 +1,366 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Spectral:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap');
+
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #15161a;
+  font-family: sans-serif;
+}
+
+/* h1, h2 {
+	font-family: 'Spectral', serif;
+  }
+
+body, p {
+	font-family: 'Nunito Sans', sans-serif;
+  } */
+
+h1, h2 {
+  font-family: 'Montserrat', sans-serif;
+} 
+
+body, p {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.maj {
+	text-transform: uppercase;
+}
+
+/* SECTION */
+.game-section {
+  margin-top: 2rem;
+  padding: 0 2rem;
+}
+  
+.carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 0 3rem;
+}
+
+.carousel-wrapper {
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel {
+  display: flex;
+  gap: 2rem;
+  transition: transform 0.5s ease;
+}
+  
+/* CARTE DE JEU */
+.game-card {
+  flex: 0 0 auto;
+  width: 280px; /* Avant 220px */
+  height: 360px;
+  background-color: #222;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+  
+.game-card:hover {
+  transform: scale(1.05);
+}
+
+.game-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.game-card-content {
+  padding: 0.5rem 1rem;
+}
+
+.game-card-title {
+  font-weight: bold;
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.game-card-subtitle {
+  color: #bbb;
+  font-size: 0.85rem;
+}
+
+/* FLECHES */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.3s ease;
+}
+
+.carousel-arrow:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.left-arrow {
+  left: 0;
+}
+
+.right-arrow {
+  right: 0;
+}
+
+.section-title {
+	font-size: 2em;
+	text-align: center;
+	margin: 20px 0;
+}
+
+.hero-image-container {
+  position: relative;
+  width: 80vw;
+  height: 50vh;
+  max-width: 1200px;
+  overflow: hidden;
+  background-color: #15161a;
+  box-shadow: 0 0 60px 40px #15161a inset;
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-image: url('/static/gameboxd/images/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: zoomLoop 12s ease-in-out infinite;
+  transform: scale(1);
+}
+
+.hero-mask {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+	pointer-events: none;
+	background: radial-gradient(
+	  60% 50% at center,
+	  rgba(0, 0, 0, 0) 25%,
+	  rgba(21, 22, 26, 0.7) 50%,
+	  rgba(21, 22, 26, 0.95) 75%,
+	  rgba(21, 22, 26, 1) 90%,
+	  rgba(21, 22, 26, 1) 100%
+	);
+}
+
+/* ✅ pour que l’image passe SOUS le masque */
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: relative;
+  z-index: 1;
+  outline: none;
+  border: none;
+}
+
+.hero-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #15161a;
+  padding-bottom: 60px;
+}
+
+.hero-text-below {
+  margin-top: 40px;
+  color: white;
+  font-family: Georgia, serif;
+  font-size: 1.4em;
+  line-height: 1.5;
+  z-index: 3;
+}
+
+.hero-text-below h1 {
+  font-size: 1.8rem;
+  /* font-weight: bold; */
+  margin-bottom: 20px;
+}
+
+.button.is-primary {
+  background-color: #00d563;
+  color: black;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.button.is-primary:hover {
+  background-color: #00b353;
+}
+
+@keyframes zoomLoop {
+	0% {
+	  transform: scale(1);
+	}
+	50% {
+	  transform: scale(1.06);
+	}
+	100% {
+	  transform: scale(1);
+	}
+}
+
+/* Grille responsive pour les jeux */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2.5rem;
+  padding: 2rem 1rem;
+  justify-content: center;
+}
+
+/* Carte de jeu */
+.game-card {
+  position: relative;
+  background-color: #1e1e1e;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.game-card:hover {
+  transform: translateY(-6px);
+}
+
+/* Conteneur de l'image avec overlay au survol */
+.game-image-container {
+  aspect-ratio: 16/9; /* tu peux passer à 3/2 si tu veux une image plus haute */
+}
+
+.game-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.game-card:hover .game-image-container img {
+  transform: scale(1.05);
+}
+
+/* Overlay au hover */
+.game-image-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.game-card:hover .game-image-container::after {
+  opacity: 1;
+}
+
+.game-card-hover-info {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  color: #fff;
+  font-size: 0.9rem;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.game-card:hover .game-card-hover-info {
+  opacity: 1;
+}
+
+/* Titre en dessous de la carte */
+.game-card-info {
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 60px;
+}
+
+.game-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.3;
+}
+
+/* Responsive ajustements */
+@media (max-width: 768px) {
+  .game-title {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-title {
+    font-size: 0.85rem;
+  }
+}
+
+.search-container {
+  position: relative;
+  max-width: 300px;
+  margin: auto;
+}
+
+.autocomplete-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-top: none;
+  z-index: 1000;
+  display: none;
+}
+
+.autocomplete-item {
+  padding: 0.5rem;
+  cursor: pointer;
+  color: #fff;
+}
+
+.autocomplete-item:hover {
+  background: #333;
+}
+
+.sticky-sidebar {
+  position: sticky;
+  top: 1rem;
+  height: calc(100vh - 2rem);
+  overflow-y: auto;
+  width: 280px; /* largeur fixe */
+  flex-shrink: 0;
+}

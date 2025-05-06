@@ -1,0 +1,45 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block content %}
+  <h2>Importer des Jeux depuis l'API</h2>
+  <form method="post">
+    {% csrf_token %}
+    <label>Nombre de pages :</label>
+    <input type="number" name="max_requests" value="1" min="1" max="50">
+    <label>Résultats par page :</label>
+    <input type="number" name="results_per_page" value="10" min="1" max="50">
+    <label>Score Metacritic :</label>
+    <input type="text" name="metacritic" value="60,100">
+    <button type="submit">Lancer l'import</button>
+  </form>
+
+  <div id="status-display">
+    <h3>État de l'import : <span id="import-status"></span></h3>
+    <p>Progression : <span id="import-progress">0</span>%</p>
+  </div>
+
+  <script>
+    // Exemple de script AJAX pour récupérer l'état de l'import (en utilisant fetch)
+    function getImportStatus(importId) {
+      fetch(`http://localhost:8001/import_status/${importId}`, {
+        headers: {
+          "Authorization": "Bearer votretokensecret" // Remplacer par le token valide
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("import-status").textContent = data.status;
+        document.getElementById("import-progress").textContent = data.progress;
+      })
+      .catch(error => console.error("Erreur lors de la récupération du statut :", error));
+    }
+
+    // Exemple: toutes les 5 secondes, on vérifie l'état de l'import si un ID est présent dans l'URL ou via une variable
+    // Vous devrez adapter cette partie pour récupérer dynamiquement l'import_id, par exemple via une variable passée par Django
+    let importId = 1; // Remplacer par l'ID réel de l'import à suivre
+    setInterval(() => {
+      getImportStatus(importId);
+    }, 5000);
+  </script>
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load static %}
+{% load form_filters %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'gameboxd/css/game_details.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+
+    <!-- HEADER -->
+    <div class="columns is-vcentered mb-6">
+      <div class="column is-one-third">
+        {% if game.background_image %}
+        <figure class="image is-3by2">
+          <img src="{{ game.background_image }}" alt="{{ game.title }}">
+        </figure>
+        {% endif %}
+      </div>
+
+      <div class="column">
+        <h1 class="title is-2">{{ game.title }}</h1>
+        <p class="subtitle is-5 has-text-grey">
+          Sorti le {{ game.release_date|date:"j F Y" }}
+        </p>
+
+        <!-- Genres -->
+        {% if game.genres.all %}
+        <p><strong>Genres :</strong></p>
+        <div class="tags mb-3">
+          {% for genre in game.genres.all %}
+          <span class="tag is-link">{{ genre.name }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+        <!-- Summary -->
+        {% if summary %}
+        <div class="box">
+          <h2 class="title is-4">Résumé critique (IA)</h2>
+          <p>{{ summary.content|linebreaks }}</p>
+          <p class="has-text-grey mt-2"><em>Généré par le modèle {{ summary.model_used }}</em></p>
+        </div>
+        {% endif %}
+        
+        <!-- Plateformes -->
+        {% if game.platforms.all %}
+        <p><strong>Plateformes :</strong></p>
+        <div class="tags mb-3">
+          {% for platform in game.platforms.all %}
+          <span class="tag is-info is-light">{{ platform.name }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Scores -->
+        {% if game.metacritic %}
+        <p><strong class="has-text-success">Metacritic :</strong> {{ game.metacritic }}</p>
+        {% endif %}
+        {% if game.rating %}
+        <p><strong>Note globale :</strong> {{ game.rating }} ({{ game.ratings_count }} notes)</p>
+        {% endif %}
+
+        <!-- Statut ajouté -->
+        {% if game.added_by_status %}
+        <p><strong>Status :</strong></p>
+        <div class="tags mb-3">
+          {% for label, count in game.added_by_status.items %}
+          <span class="tag is-dark is-light">{{ label }} : {{ count }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Liens -->
+        <div class="mt-3">
+          {% if game.website %}
+          <a href="{{ game.website }}" class="button is-primary is-small" target="_blank">🌐 Site officiel</a>
+          {% endif %}
+          {% if game.reddit_url %}
+          <a href="{{ game.reddit_url }}" class="button is-danger is-small" target="_blank">👾 Reddit</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Description -->
+    {% if game.description %}
+    <div class="box">
+      <h2 class="title is-4">Description</h2>
+      <p>{{ game.description|linebreaks }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Répartition des notes -->
+    {% if game.ratings.all %}
+    <div class="box">
+      <h2 class="title is-4">Répartition des notes</h2>
+      <div class="columns is-multiline is-variable is-4">
+        {% for rating in game.ratings.all %}
+        <div class="column is-one-quarter">
+          <div class="box rating-card has-text-white 
+            {% if rating.title == 'exceptional' %}has-background-success
+            {% elif rating.title == 'recommended' %}has-background-info
+            {% elif rating.title == 'meh' %}has-background-warning
+            {% elif rating.title == 'skip' %}has-background-danger
+            {% else %}has-background-grey{% endif %}">
+            <p class="is-uppercase has-text-weight-semibold is-size-6 mb-1">
+              {{ rating.title|translate_rating }}
+            </p>
+            <p>{{ rating.count }} votes ({{ rating.percent|floatformat:2 }}%)</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Screenshots -->
+    {% if game.screenshots.all %}
+    <div class="box">
+      <h2 class="title is-4">Captures d’écran</h2>
+      <div class="columns is-multiline">
+        {% for shot in game.screenshots.all %}
+        <div class="column is-one-third">
+          <figure class="image is-16by9">
+            <img src="{{ shot.image }}" alt="Screenshot {{ forloop.counter }}" onclick="openModal(this.src)">
+          </figure>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    <!-- Modal img -->
+    <div class="modal" id="image-modal">
+      <div class="modal-background"></div>
+      <div class="modal-content is-flex is-justify-content-center is-align-items-center p-0">
+        <img id="modal-image" src="" alt="Zoom" class="zoomed-image">
+      </div>
+      <button class="modal-close is-large" aria-label="close"></button>
+    </div>   
+
+    <!-- Avis -->
+    {% if reviews %}
+    <div class="box">
+      <h2 class="title is-4">Avis des joueurs</h2>
+      {% for review in reviews %}
+      <article class="media mb-4">
+        <div class="media-content">
+          <div class="content">
+            <p>
+              <strong>{{ review.author|default:"Anonyme" }}</strong> ({{ review.platform }})<br>
+              {{ review.content }}
+            </p>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+{% endblock %}
+
+
+{% block js_files %}
+<script src="{% static 'gameboxd/js/game_detail.js' %}"></script>
+{% endblock %}
+

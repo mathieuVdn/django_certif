@@ -1,0 +1,3 @@
+2025-03-25 18:21:09,649 - INFO - \U0001f4e5 Récupération de la page 1
+2025-03-25 18:21:09,896 - ERROR - Erreur API (page 1) : 502 Server Error: Bad Gateway for url: https://api.rawg.io/api/games?key=8ba274f357114ba1864dac2cbc5ddb11&page=1&page_size=20&metacritic=70%2C100
+2025-03-25 18:21:09,897 - WARNING - \u274c Erreur ou données manquantes à la page 1.

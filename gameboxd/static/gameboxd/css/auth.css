@@ -1,0 +1,107 @@
+.custom-form-box {
+    background-color: #2a2d33; /* un gris foncé plus doux */
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 0 12px rgba(0, 208, 100, 0.1); /* effet néon doux */
+    transition: box-shadow 0.3s ease;
+}
+
+.custom-form-box:hover {
+    box-shadow: 0 0 20px rgba(0, 208, 100, 0.25);
+}
+
+input.input.is-dark {
+    background-color: #15161a;
+    border: 1px solid #393d44;
+    color: white;
+}
+
+input.input.is-dark:focus {
+    border-color: #00e054;
+    box-shadow: 0 0 0 2px rgba(0, 224, 84, 0.2);
+}
+.custom-form-box {
+    background-color: #2a2d33; /* un gris foncé plus doux */
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 0 12px rgba(0, 208, 100, 0.1); /* effet néon doux */
+    transition: box-shadow 0.3s ease;
+}
+
+.custom-form-box:hover {
+    box-shadow: 0 0 20px rgba(0, 208, 100, 0.25);
+}
+
+input.input.is-dark {
+    background-color: #15161a;
+    border: 1px solid #393d44;
+    color: white;
+}
+
+input.input.is-dark:focus {
+    border-color: #00e054;
+    box-shadow: 0 0 0 2px rgba(0, 224, 84, 0.2);
+}
+/* Pour que toute la zone prenne 100vh et centre verticalement */
+.full-height {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Wrapper image + masque */
+  .register-image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+  
+  /* L'image et son conteneur */
+  .image-mask-container {
+    position: relative;
+    width: 100%;
+    max-width: 700px; /* agrandie ici */
+    margin: 0 auto;
+  }
+  
+  .register-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 1rem;
+    display: block;
+    z-index: 1;
+  }
+  
+  /* Masque radial fondu (identique à la home) */
+  .image-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    z-index: 2;
+    pointer-events: none;
+  
+    background: radial-gradient(
+      ellipse at center,
+      rgba(0, 0, 0, 0) 35%,
+      rgba(21, 22, 26, 0.7) 70%,
+      rgba(21, 22, 26, 1) 100%
+    );
+  }
+  
+  .image-caption {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    color: #ccc;
+    font-size: 0.95rem;
+    text-align: center;
+  }
+  

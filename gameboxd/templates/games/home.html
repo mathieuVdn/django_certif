@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_files %}
+  <link rel="stylesheet" href="{% static 'gameboxd/css/home.css' %}">
+{% endblock %}
+
+{% block page_title %}GameBoxd{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="columns is-gapless" style="min-height: 100vh;">
+  <!-- Sidebar -->
+  <div class="column" style="flex: none;">
+    <aside class="menu has-background-dark p-4 has-text-white sticky-sidebar">
+      <p class="menu-label">Filtres</p>
+
+      <p class="menu-label">Nouveautés</p>
+      <ul class="menu-list">
+        <li><a href="?release=30" class="has-text-white">⭐ Derniers 30 jours</a></li>
+        <li><a href="?release=7" class="has-text-white">🔥 Cette semaine</a></li>
+        <li><a href="?release=next" class="has-text-white">⏭️ Semaine prochaine</a></li>
+      </ul>
+
+      <p class="menu-label">Top</p>
+      <ul class="menu-list">
+        <li><a href="?sort=best" class="has-text-white">🏆 Meilleurs de l'année</a></li>
+        <li><a href="?sort=popular" class="has-text-white">📊 Populaires en 2024</a></li>
+        <li><a href="?sort=top250" class="has-text-white">👑 Top 250</a></li>
+      </ul>
+      <p class="menu-label">Genres</p>
+      <ul class="menu-list">
+        <li><a href="?genre=RPG" class="has-text-white">🎲 RPG</a></li>
+        <li><a href="?genre=Action" class="has-text-white">⚔️ Action</a></li>
+        <li><a href="?genre=Horror" class="has-text-white">👻 Horreur</a></li>
+      </ul>
+
+      <p class="menu-label">Plateformes</p>
+      <ul class="menu-list">
+        <li><a href="?platform=Switch" class="has-text-white">🎮 Switch</a></li>
+        <li><a href="?platform=PC" class="has-text-white">🖥️ PC</a></li>
+        <li><a href="?platform=PlayStation" class="has-text-white">🎮 PlayStation</a></li>
+      </ul>
+    </aside>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="column is-flex-grow-1">
+    <section id="trending-games" class="game-section p-5">
+      <div class="search-container is-full mb-4">
+        <input
+          type="text"
+          id="game-search"
+          class="input is-large is-full"
+          placeholder="Rechercher un jeu..."
+          autocomplete="off"
+        >
+        <div id="autocomplete-results" class="autocomplete-box"></div>
+      </div>
+
+      <h2 class="section-title">{{ section_title }}</h2>
+      <div class="games-grid">
+        {% for game in trending_games %}
+        <a href="{% url 'game-detail' game.id %}" class="game-card">
+          <div class="game-card">
+            <div class="game-image-container">
+              <img src="{{ game.background_image }}" alt="{{ game.title }}">
+              <div class="game-card-hover-info">
+                <p>Score : {{ game.metacritic }}</p>
+                <p>Sortie : {{ game.release_date|date:"j F Y" }}</p>
+              </div>
+            </div>
+            <div class="game-card-info">
+              <h3 class="game-title">{{ game.title }}</h3>
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</div>
+</div>
+
+{% else %}
+<!-- Page d'accueil non connecté -->
+<div class="hero-wrapper">
+  <div class="hero-image-container">
+    <div class="hero-background"></div>
+    <div class="hero-mask"></div>
+  </div>
+
+  <div class="hero-text-below">
+    <svg xmlns="http://www.w3.org/2000/svg" width="800" height="100" viewBox="0 0 260 50">
+      <defs>
+        <linearGradient id="gameGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#00ffcc"/>
+          <stop offset="50%" stop-color="#00e054"/>
+          <stop offset="100%" stop-color="#00ccff"/>
+        </linearGradient>
+      </defs>
+      <g transform="translate(0, 5) scale(1.5)">
+        <rect x="0" y="4" width="34" height="18" rx="3" fill="#333"/>
+        <rect x="7" y="10" width="3" height="6" fill="#fff"/>
+        <rect x="5" y="12" width="7" height="2" fill="#fff"/>
+        <circle cx="26" cy="11" r="2.5" fill="#ff8000"/>
+        <circle cx="29.5" cy="15" r="2.5" fill="#00e054"/>
+        <circle cx="23.5" cy="16" r="2.5" fill="#40bcf4"/>
+      </g>
+      <text x="60" y="38"
+            font-family="Montserrat, sans-serif"
+            font-weight="800"
+            font-size="40"
+            fill="url(#gameGrad)">
+        GAMEBOXD
+      </text>
+    </svg>       
+    <h1 class="maj">Explorez les jeux que vous avez découverts.</h1>
+    <h1 class="maj">Trouvez ceux qui méritent votre attention.</h1>
+    <h1 class="maj">Lisez ce que les joueurs en pensent.</h1>
+    <a id="open-register-modal-hero" class="button is-primary">Commencer — c’est gratuit !</a>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block js_files %}
+  <script src="{% static 'gameboxd/js/home.js' %}"></script>
+  <script src="{% static 'gameboxd/js/auth.js' %}"></script>
+{% endblock %}

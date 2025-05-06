@@ -1,0 +1,148 @@
+{% load static %}
+{% load form_filters %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block page_title %} {% endblock %}</title>
+    <link rel="stylesheet" href="{% static "gameboxd/css/normalize.css" %}">
+    <link rel="stylesheet" href="{% static "gameboxd/css/styles.css" %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css" rel="stylesheet">
+    <link rel="icon" href="{% static 'gameboxd/images/manette.ico' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'gameboxd/images/manette.ico' %}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{% static 'gameboxd/images/manette.ico' %}">    {% block css_files %}
+    {% endblock %}
+</head>
+<body>
+    {% include "games/includes/header.html" %}
+    {% block content %}
+    {% endblock %}
+    {% if form %}
+    <div id="register-modal" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card custom-form-box">
+        <header class="modal-card-head has-background-dark">
+          <p class="modal-card-title has-text-white">Inscription</p>
+          <button class="delete" aria-label="close" id="close-register-modal"></button>
+        </header>
+    
+        <section class="modal-card-body has-background-dark has-text-white">
+            {% if messages %}
+            {% for message in messages %}
+              <div id="flash-message" class="notification {% if message.tags == 'error' %}is-danger{% else %}is-success{% endif %}">
+                {{ message }}
+              </div>
+            {% endfor %}
+
+          {% endif %}
+    
+          <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+    
+            <div class="field">
+              <label class="label">Nom d'utilisateur</label>
+              <div class="control">
+                {{ form.username|add_class:"input is-dark" }}
+              </div>
+              {% if form.username.errors %}
+                <p class="help is-danger">{{ form.username.errors.0 }}</p>
+              {% endif %}
+            </div>
+    
+            <div class="field">
+              <label class="label">Mot de passe</label>
+              <div class="control">
+                {{ form.password1|add_class:"input is-dark" }}
+              </div>
+              {% if form.password1.errors %}
+                <p class="help is-danger">{{ form.password1.errors.0 }}</p>
+              {% endif %}
+            </div>
+    
+            <div class="field">
+              <label class="label">Confirmer le mot de passe</label>
+              <div class="control">
+                {{ form.password2|add_class:"input is-dark" }}
+              </div>
+              {% if form.password2.errors %}
+                <p class="help is-danger">{{ form.password2.errors.0 }}</p>
+              {% endif %}
+            </div>
+    
+            <button class="button is-primary is-fullwidth mt-4" type="submit">S'inscrire</button>
+          </form>
+    
+          <!-- 🔗 Lien vers la connexion -->
+          <p class="has-text-centered mt-4 has-text-grey-light">
+            Déjà inscrit ? <a id="switch-to-login">Connecte-toi ici</a>
+          </p>
+        </section>
+      </div>
+    </div>
+    {% endif %}
+    {% if login_form %}
+    <div id="login-modal" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card custom-form-box">
+        <header class="modal-card-head has-background-dark">
+          <p class="modal-card-title has-text-white">Connexion</p>
+          <button class="delete" aria-label="close" id="close-login-modal"></button>
+        </header>
+    
+        <section class="modal-card-body has-background-dark has-text-white">
+          {% if messages %}
+            {% for message in messages %}
+              <div id="flash-message" class="notification {% if message.tags == 'error' %}is-danger{% else %}is-success{% endif %}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+    
+          <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="field">
+              <label class="label">Nom d'utilisateur</label>
+              <div class="control">
+                {{ login_form.username|add_class:"input is-dark" }}
+              </div>
+              {% if login_form.username.errors %}
+                <p class="help is-danger">{{ login_form.username.errors.0 }}</p>
+              {% endif %}
+            </div>
+    
+            <div class="field">
+              <label class="label">Mot de passe</label>
+              <div class="control">
+                {{ login_form.password|add_class:"input is-dark" }}
+              </div>
+              {% if login_form.password.errors %}
+                <p class="help is-danger">{{ login_form.password.errors.0 }}</p>
+              {% endif %}
+            </div>
+    
+            <button class="button is-primary is-fullwidth mt-4" type="submit">Se connecter</button>
+          </form>
+          <p class="has-text-centered mt-4 has-text-grey-light">
+            Pas encore de compte ? <a id="switch-to-register">Crée-en un ici</a>
+          </p>
+        </section>
+      </div>
+    </div>
+    
+{% endif %}
+
+<script>
+    window.openRegisterModal = {{ open_modal|yesno:"true,false" }};
+    window.openLoginModal = {{ open_login_modal|yesno:"true,false" }};
+  </script>
+      <script src="{% static 'gameboxd/js/auth.js' %}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+        {% block js_files %}
+        {% endblock %}
+</body>
+
+</html>
