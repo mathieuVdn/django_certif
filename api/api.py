@@ -7,7 +7,7 @@ from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from pydantic import BaseModel
 from typing import List, Optional
-from mistral_summary import generate_summary
+from api.mistral_summary import generate_summary
 from pathlib import Path
 import sys
 

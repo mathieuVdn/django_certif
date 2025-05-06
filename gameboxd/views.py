@@ -11,6 +11,7 @@ from django.views.decorators.http import require_GET
 from django.http import JsonResponse
 from datetime import timedelta
 from django.utils import timezone
+from prometheus_client import generate_latest, Counter
 
 
 
@@ -233,7 +234,11 @@ def game_detail(request, game_id):
     }
     return render(request, "games/game_detail.html", context)
 
-    
-    return render(request, "games/game_detail.html", {
-        "game": game,
-    })
+
+
+# Exemple de métrique simple
+REQUEST_COUNT = Counter("gameboxd_http_requests_total", "Total des requêtes HTTP")
+
+def metrics_view(request):
+    REQUEST_COUNT.inc()
+    return HttpResponse(generate_latest(), content_type="text/plain")
