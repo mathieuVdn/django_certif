@@ -5,6 +5,7 @@ from gameboxd.models import Game, Review
 from unittest.mock import patch
 from api.mistral_summary import generate_summary
 from rest_framework.test import APIClient
+from django.contrib.auth.models import User
 
 class APITests(TestCase):
     def setUp(self):
@@ -106,6 +107,6 @@ class GenerateSummaryFakeTests(TestCase):
         reviews = list(Review.objects.filter(game=self.game).values_list("content", flat=True))
         result = generate_summary(reviews, lang="fr")
 
-        self.assertEqual(result["model"], "mistral:7b-instruct-q4_0")
+        self.assertEqual(result["model"], "mistral")
         self.assertEqual(result["used_lang"], "fr")
         self.assertIn("faux résumé", result["summary"])
